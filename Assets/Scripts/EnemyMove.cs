@@ -67,7 +67,7 @@ public class EnemyMove : MonoBehaviour
        
         if (collision.CompareTag("Bitting"))
         {
-            StartCoroutine(TimeSlow());
+            if (!Slowed) StartCoroutine(TimeSlow());
             cameraShake.Shake();
             reflect = true;
             isBitted = true;
@@ -76,6 +76,7 @@ public class EnemyMove : MonoBehaviour
         }
         if (collision.CompareTag("Bitted"))
         {
+            Time.timeScale = 1f;
             hp--;
             if (hp <= 0)
             {
@@ -92,7 +93,7 @@ public class EnemyMove : MonoBehaviour
         if (Slowed) yield break;
         Slowed = true;
         Time.timeScale = 0.3f;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.07f);
         Time.timeScale = 1f;
         Slowed = false;
     }
