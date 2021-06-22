@@ -370,7 +370,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 934120957}
         m_TargetAssemblyTypeName: GameOverManager, Assembly-CSharp
-        m_MethodName: OnClickStart
+        m_MethodName: onClickStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -462,7 +462,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textHighScore: {fileID: 1080010488}
-  highScore: 0
 --- !u!1 &1080010486
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +497,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1080010488
 MonoBehaviour:
@@ -533,7 +532,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BEST
+  m_Text: 'BEST
+
+    0'
 --- !u!222 &1080010489
 CanvasRenderer:
   m_ObjectHideFlags: 0

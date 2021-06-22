@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class EnemyMove : MonoBehaviour
 {
     [SerializeField]
@@ -15,6 +16,7 @@ public class EnemyMove : MonoBehaviour
     private Collider2D col = null;
     private SpriteRenderer rend;
     private CameraShake cameraShake;
+    AudioSource[] audioSource;
 
 
 
@@ -30,7 +32,7 @@ public class EnemyMove : MonoBehaviour
         spriteRenderer = FindObjectOfType<SpriteRenderer>();
         rend = FindObjectOfType<SpriteRenderer>();
         cameraShake = GetComponent<CameraShake>();
-       
+        audioSource = GetComponents<AudioSource>();
     }
 
     
@@ -38,7 +40,7 @@ public class EnemyMove : MonoBehaviour
     {
         if(reflect == true)
         {
-            transform.Translate(Vector2.right * speed * 1.5f * Time.deltaTime);
+            transform.Translate(Vector2.right * speed * 2.5f * Time.deltaTime);
             
         }
         else
@@ -49,7 +51,7 @@ public class EnemyMove : MonoBehaviour
             gameObject.tag = "Bitted";
         }
 
-        if (transform.position.x < gameManager.MinPosition.x - 4)
+        if (transform.position.x < gameManager.MinPosition.x - 7)
         {
             Destroy(gameObject);
             
@@ -68,6 +70,7 @@ public class EnemyMove : MonoBehaviour
         if (collision.CompareTag("Bitting"))
         {
             if (!Slowed) StartCoroutine(TimeSlow());
+            audioSource[0].Play();
             cameraShake.Shake();
             reflect = true;
             isBitted = true;
@@ -94,17 +97,16 @@ public class EnemyMove : MonoBehaviour
         Slowed = true;
         Time.timeScale = 0.3f;
         yield return new WaitForSeconds(0.07f);
-        Time.timeScale = 1f;
+        Time.timeScale = 1.0f;
         Slowed = false;
     }
 
     private IEnumerator Dead()
         {
+            audioSource[1].Play();
             col.enabled = true;
-            
             isDead = true;
             gameManager.Add(score);
-            
             yield return new WaitForSeconds(0.1f);
             Destroy(gameObject);
         }

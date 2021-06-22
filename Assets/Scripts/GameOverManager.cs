@@ -6,17 +6,14 @@ public class GameOverManager : MonoBehaviour
 {
     [SerializeField]
     private Text textHighScore = null;
-
-    [SerializeField]
-    private int highScore;
-
     private void Start()
     {
-        highScore = PlayerPrefs.GetInt("BEST\n", 0);
-        textHighScore.text = string.Format("BEST\n {0}", highScore);
+        Time.timeScale = 1f;
+        textHighScore.text = string.Format("BEST\n{0}", PlayerPrefs.GetInt("BEST", 0));
+        
     }
 
-    public void OnClickStart()
+    public void onClickStart()
     {
         SceneManager.LoadScene("Main");
     }

@@ -25,7 +25,7 @@ public class PlayerMove : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         animator = GetComponent<Animator>();
-        spriteRenderer = FindObjectOfType<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
 

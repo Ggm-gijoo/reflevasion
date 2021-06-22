@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int score = 0;
     [SerializeField]
-    private int highscore = 0;
+    public int highscore = 0;
     [SerializeField]
     private Text textLife = null;
     [SerializeField]
@@ -23,13 +23,14 @@ public class GameManager : MonoBehaviour
     private Text textHighscore = null;
     [SerializeField]
     private GameObject enemyPrefab = null;
+    
 
     void Start()
     {
         MinPosition = new Vector2(-3f, -1.5f);
         MaxPosition = new Vector2(3f, 1.5f);
         UpdateUI();
-        highscore = PlayerPrefs.GetInt("BEST, 0");
+        highscore = PlayerPrefs.GetInt("BEST", 0);
         StartCoroutine(SpawnEnemy());
     }
     private IEnumerator SpawnEnemy()
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
         if (score > highscore)
         {
             highscore = score;
-            PlayerPrefs.GetInt("HIGHSCORE", highscore);
+            PlayerPrefs.SetInt("BEST", highscore);
         }
         UpdateUI();
     }
