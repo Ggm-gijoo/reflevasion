@@ -22,16 +22,20 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text textHighscore = null;
     [SerializeField]
-    private GameObject enemyPrefab = null;
-    
+    private GameObject enemyPrefab, bossPrefab = null;
+    public PoolManager poolManager { get; private set; }
+
+
 
     void Start()
     {
         MinPosition = new Vector2(-3f, -1.5f);
         MaxPosition = new Vector2(3f, 1.5f);
         UpdateUI();
+        poolManager = FindObjectOfType<PoolManager>();
         highscore = PlayerPrefs.GetInt("BEST", 0);
         StartCoroutine(SpawnEnemy());
+        StartCoroutine(SpawnBoss());
     }
     private IEnumerator SpawnEnemy()
     {
@@ -50,6 +54,25 @@ public class GameManager : MonoBehaviour
             }
             yield return new WaitForSeconds(1f);
             
+        }
+    }
+
+    private IEnumerator SpawnBoss()
+    {
+        while (true)
+        {
+  
+            float randomY = Random.Range(3f, -1.5f);
+            float randomDelay = Random.Range(0, 1.5f);
+
+            for (int i = 0; i < 1; i++)
+            {
+                GameObject boss = null;
+                boss = Instantiate(bossPrefab, new Vector2(8f, randomY), Quaternion.identity);
+                boss.transform.SetParent(null);
+            }
+            yield return new WaitForSeconds(15f);
+
         }
     }
 

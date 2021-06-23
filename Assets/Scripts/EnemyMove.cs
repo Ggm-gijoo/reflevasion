@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour
 {
     [SerializeField]
-    private float speed = 5f;
+    public float speed = 5f;
     [SerializeField]
     private int hp = 1;
     [SerializeField]
@@ -29,8 +29,8 @@ public class EnemyMove : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         col = FindObjectOfType<Collider2D>();
-        spriteRenderer = FindObjectOfType<SpriteRenderer>();
-        rend = FindObjectOfType<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rend = GetComponent<SpriteRenderer>();
         cameraShake = GetComponent<CameraShake>();
         audioSource = GetComponents<AudioSource>();
     }
