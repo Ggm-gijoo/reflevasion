@@ -118,7 +118,7 @@ public class BossMove : MonoBehaviour
         col.enabled = true;
         animator.Play("Explosion");
         gameManager.Add(score);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 
