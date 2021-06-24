@@ -49,7 +49,7 @@ public class PlayerMove : MonoBehaviour
 
             if (EventSystem.current.IsPointerOverGameObject()) return;
             targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetPosition.x = Mathf.Clamp(targetPosition.x, gameManager.MinPosition.x-5f, gameManager.MaxPosition.x+5f);
+            targetPosition.x = Mathf.Clamp(targetPosition.x, gameManager.MinPosition.x-2f, gameManager.MaxPosition.x+5f);
             targetPosition.y = Mathf.Clamp(targetPosition.y, gameManager.MinPosition.y-2f, gameManager.MaxPosition.y+2f);
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
         }

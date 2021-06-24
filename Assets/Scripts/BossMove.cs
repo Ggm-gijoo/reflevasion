@@ -9,7 +9,7 @@ public class BossMove : MonoBehaviour
     [SerializeField]
     private int score = 30000;
     [SerializeField]
-    private float speed = 10f;
+    private float speed = 3f;
 
     private GameManager gameManager = null;
     private Collider2D col = null;
@@ -17,50 +17,63 @@ public class BossMove : MonoBehaviour
     private Transform bulletPosition = null;
     [SerializeField]
     private GameObject bulletPrefab = null;
-    private Vector2 targetPosition = Vector2.zero;
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         col = FindObjectOfType<Collider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         StartCoroutine(Fire());
-        StartCoroutine(Moving());
     }
 
     void Update()
     {
-
+        Shield();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Bitted"))
         {
-            hp--;
+            StartCoroutine(Damaged());
+            Destroy(collision.gameObject);
             if (hp <= 0)
             {
                 StartCoroutine(Dead());
             }
         }
     }
+    
+    void Shield()
+    {
+        transform.localPosition = ClampPosition(transform.localPosition);
+    }
 
     private IEnumerator Moving()
     {
-        float randomMove = Random.Range(3f, -3f);
-        transform.Translate(Vector2.up* speed * randomMove * Time.deltaTime);
-        transform.localPosition =Vector2.MoveTowards(transform.localPosition,targetPosition, speed * Time.deltaTime);
-        targetPosition.x = Mathf.Clamp(targetPosition.x, gameManager.MinPosition.x - 5f, gameManager.MaxPosition.x + 5f);
-        targetPosition.y = Mathf.Clamp(targetPosition.y, gameManager.MinPosition.y - 2f, gameManager.MaxPosition.y + 2f);
-        yield return new WaitForSeconds(1f);
-
+       
+        while (true)
+        {
+            yield return new WaitForSeconds(3f);
+            Vector2 randomMove = new Vector2(0f, Random.Range(3f, -3f));
+            for (int i = 0; i < 10; i++)
+            {
+                transform.Translate(randomMove * (speed));
+                yield return new WaitForSeconds(0.02f);
+            }
+        }
     }
 
     private IEnumerator Fire()
     {
         while (true)
         {
-            SpawnOrInstantiate();
             yield return new WaitForSeconds(4f);
+            SpawnOrInstantiate();
+            StartCoroutine (Moving());
         }
     }
 
@@ -88,13 +101,35 @@ public class BossMove : MonoBehaviour
 
         bullet.transform.SetParent(null);
     }
+    private IEnumerator Damaged()
+    {
+        hp--;
+        for (int i = 0; i < 5; i++)
+        {
+            spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 
     private IEnumerator Dead()
     {
         col.enabled = true;
-
+        animator.Play("Explosion");
         gameManager.Add(score);
         yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
+    }
+
+
+    public Vector2 ClampPosition(Vector2 position)
+    {
+        {
+            return new Vector2
+            (
+                8f, Mathf.Clamp(transform.localPosition.y, gameManager.MinPosition.y-2f , gameManager.MaxPosition.y+2f)
+            );
+        }
     }
 }

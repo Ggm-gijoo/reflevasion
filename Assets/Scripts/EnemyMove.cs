@@ -18,12 +18,8 @@ public class EnemyMove : MonoBehaviour
     private CameraShake cameraShake;
     AudioSource[] audioSource;
 
-
-
-    private bool isDamaged = false;
-    private bool isDead = false;
     private bool reflect = false;
-    private bool isBitted = false;
+    private bool isDead = false;
 
     private void Start()
     {
@@ -46,20 +42,15 @@ public class EnemyMove : MonoBehaviour
         else
             transform.Translate(Vector2.left * speed * Time.deltaTime);
 
-        if (isBitted == true)
-        {
-            gameObject.tag = "Bitted";
-        }
-
         if (transform.position.x < gameManager.MinPosition.x - 7)
         {
-            Destroy(gameObject);
+            Despawn();
             
         }
 
         else if (transform.position.x > gameManager.MaxPosition.x + 10)
         {
-            Destroy(gameObject);
+            Despawn();
         }
     }
 
@@ -73,7 +64,7 @@ public class EnemyMove : MonoBehaviour
             audioSource[0].Play();
             cameraShake.Shake();
             reflect = true;
-            isBitted = true;
+            gameObject.tag = "Bitted";
             rend.flipX = true;
             gameManager.Add(score);
         }
@@ -110,4 +101,10 @@ public class EnemyMove : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             Destroy(gameObject);
         }
+
+    public void Despawn()
+    {
+        transform.SetParent(gameManager.poolManager2.transform, false);
+        gameObject.SetActive(false);
     }
+}

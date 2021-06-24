@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject enemyPrefab, bossPrefab = null;
     public PoolManager poolManager { get; private set; }
+    public PoolManager2 poolManager2 { get; private set; }
+    private CameraShake cameraShake;
 
 
 
@@ -33,6 +35,8 @@ public class GameManager : MonoBehaviour
         MaxPosition = new Vector2(3f, 1.5f);
         UpdateUI();
         poolManager = FindObjectOfType<PoolManager>();
+        poolManager2 = FindObjectOfType<PoolManager2>();
+        cameraShake = GetComponent<CameraShake>();
         highscore = PlayerPrefs.GetInt("BEST", 0);
         StartCoroutine(SpawnEnemy());
         StartCoroutine(SpawnBoss());
@@ -78,6 +82,7 @@ public class GameManager : MonoBehaviour
 
     public void Dead()
     {
+        cameraShake.Shake();
         life--;
         if (life <= 0)
         {
