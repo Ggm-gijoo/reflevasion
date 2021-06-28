@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 1; i++)
             {
                 GameObject boss = null;
-                boss = Instantiate(bossPrefab, new Vector2(8f, randomY), Quaternion.identity);
+                boss = Instantiate(bossPrefab, new Vector2(6f, randomY), Quaternion.identity);
                 boss.transform.SetParent(null);
             }
             yield return new WaitForSeconds(15f);
@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
     public void Dead()
     {
         cameraShake.Shake();
+        cameraShake.cameraPos = new Vector3(0, 0, -10);
         life--;
         if (life <= 0)
         {

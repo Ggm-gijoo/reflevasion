@@ -63,6 +63,7 @@ public class EnemyMove : MonoBehaviour
             if (!Slowed) StartCoroutine(TimeSlow());
             audioSource[0].Play();
             cameraShake.Shake();
+            cameraShake.cameraPos = new Vector3(0, 0, -10);
             reflect = true;
             gameObject.tag = "Bitted";
             rend.flipX = true;

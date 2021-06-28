@@ -19,6 +19,8 @@ public class BossMove : MonoBehaviour
     private GameObject bulletPrefab = null;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+    AudioSource audiosource;
+    CameraShake shake;
 
     void Start()
     {
@@ -26,6 +28,8 @@ public class BossMove : MonoBehaviour
         col = FindObjectOfType<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        audiosource = GetComponent<AudioSource>();
+        shake = GetComponent<CameraShake>();
         StartCoroutine(Fire());
     }
 
@@ -116,10 +120,13 @@ public class BossMove : MonoBehaviour
     private IEnumerator Dead()
     {
         col.enabled = true;
+        shake.Shake();
+        audiosource.Play();
         animator.Play("Explosion");
         gameManager.Add(score);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
+        shake.cameraPos = new Vector3(0, 0, -10);
     }
 
 
